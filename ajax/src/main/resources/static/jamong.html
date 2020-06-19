@@ -103,4 +103,32 @@
     });
 </script>
 <br><br><br>
+
+
+<!-- form input 에 file 이 추가되는 경우 -->
+<form id="filefrm" enctype="multipart/form-data">
+    <input multiple="multiple" type="file" id="images" name="images">
+</form>
+<button id="btn5">file</button>
+<div id="result5"></div>
+<script>
+    $('#btn5').on('click', function(){
+        var form = new FormData($('#filefrm')[0]);
+        $.ajax({
+            url: "file",
+            type: "POST",
+            data: form,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                for(var i=0; i<data.length; i++){
+                    $('#result5').append(data[i] + '<br>')
+                }
+            },
+            error: function(){
+                alert("file err");
+            }
+        });
+    });
+</script>
 </body>

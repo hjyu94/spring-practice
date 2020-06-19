@@ -2,9 +2,11 @@ package me.hjeong.ajax.jamong;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class JamongController {
@@ -45,5 +47,16 @@ public class JamongController {
             }
             return arrList;
         }
+    }
+
+    @RequestMapping(value="/file", method=RequestMethod.POST)
+    @ResponseBody
+    public Object file(AjaxFile file) {
+        List<MultipartFile> list = file.getImages();
+        ArrayList<String> fileNameList = new ArrayList<String>();
+        for(MultipartFile mf : list) {
+            fileNameList.add(mf.getOriginalFilename());
+        }
+        return fileNameList;
     }
 }
