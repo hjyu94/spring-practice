@@ -45,4 +45,36 @@
         });
     });
 </script>
+<br><br><br>
+
+
+<!-- json 데이터로 주고 받기 -->
+<!-- Jackson 라이브러리가 의존성에 포함되어있어야 한다. (json 객체를 읽고 쓰기 편하게 해주는 라이브러리) -->
+<!-- Spring 3.0 이후로는 자동으로 포함된다. -->
+<button id="btn3">stringify</button>
+<div id="result3"></div>
+<script>
+    $('#btn3').on('click', function(){
+        var form = {
+            name: "jamong",
+            age: 23
+        }
+        $.ajax({
+            url: "stringify",
+            type: "POST",
+            data: JSON.stringify(form),
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function(data){
+                var txt = data.name + data.age;
+                $('#result3').text(txt);
+            },
+            error: function(){
+                alert("stringify err");
+            }
+        });
+    });
+</script>
+<br><br><br>
+
 </body>

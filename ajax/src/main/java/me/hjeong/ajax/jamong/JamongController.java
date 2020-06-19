@@ -1,10 +1,9 @@
 package me.hjeong.ajax.jamong;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @Controller
 public class JamongController {
@@ -24,5 +23,14 @@ public class JamongController {
     @ResponseBody
     public String serialize(Jamong jamong) {
         return jamong.getName() + jamong.getAge();
+    }
+
+    @RequestMapping(value="/stringify", method=RequestMethod.POST)
+    @ResponseBody
+    public Object stringify(@RequestBody Jamong jamong) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("name", jamong.getName());
+        map.put("age", jamong.getAge());
+        return map;
     }
 }
