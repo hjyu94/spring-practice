@@ -1,7 +1,7 @@
 <body>
-<button id="btn1">simpleAJAX</button>
-<div id="result"></div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<button id="btn1">simpleAJAX</button>
+<div id="result1"></div>
 <script>
     $('#btn1').on('click', function(){
         var form = {
@@ -11,12 +11,36 @@
         $.ajax({
             url: "requestObject",
             type: "POST",
-            data: form,
+            data: form, <!-- * point! * -->
             success: function(data){
                 $('#result').text(data);
             },
             error: function(){
                 alert("simpleWithObject err");
+            }
+        });
+    });
+</script>
+<br><br><br>
+
+<!-- form 데이터 -->
+<form id="frm"> <!-- * point! * -->
+    name : <input type="text" name="name" id="name"><br>
+    age : <input type="text" name="age" id="age">
+</form>
+<button id="btn2">serialize</button>
+<div id="result2"></div>
+<script>
+    $('#btn2').on('click', function(){
+        $.ajax({
+            url: "serialize",
+            type: "POST",
+            data: $("#frm").serialize(), <!-- * point! * -->
+            success: function(data){
+                $('#result2').text(data);
+            },
+            error: function(){
+                alert("serialize err");
             }
         });
     });

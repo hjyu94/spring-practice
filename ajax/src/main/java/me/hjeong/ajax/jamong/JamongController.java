@@ -19,4 +19,10 @@ public class JamongController {
     public String simpleWithObject(Jamong jamong) {
         return jamong.getName() + jamong.getAge();
     }
+
+    @RequestMapping(value="/serialize", method=RequestMethod.POST)
+    @ResponseBody
+    public String serialize(Jamong jamong) {
+        return jamong.getName() + jamong.getAge();
+    }
 }
