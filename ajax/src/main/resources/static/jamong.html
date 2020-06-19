@@ -1,0 +1,24 @@
+<body>
+<button id="btn1">simpleAJAX</button>
+<div id="result"></div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    $('#btn1').on('click', function(){
+        var form = {
+            name: "jamong",
+            age: 23
+        };
+        $.ajax({
+            url: "requestObject",
+            type: "POST",
+            data: form,
+            success: function(data){
+                $('#result').text(data);
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
+    });
+</script>
+</body>

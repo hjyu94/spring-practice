@@ -1,0 +1,7 @@
+.idea
+ajax/target/
+ajax/.mvn/
+
+!ajax/.mvn/wrapper/maven-wrapper.jar
+!ajax/**/src/main/**
+!ajax/**/src/test/**
