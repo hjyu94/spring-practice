@@ -3,6 +3,7 @@ package me.hjeong.ajax.jamong;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
@@ -32,5 +33,17 @@ public class JamongController {
         map.put("name", jamong.getName());
         map.put("age", jamong.getAge());
         return map;
+    }
+
+    @RestController
+    public class AjaxRestController {
+        @PostMapping("/restController")
+        public Object restController(@RequestBody Jamong jamong) {
+            ArrayList<String> arrList = new ArrayList<String>();
+            for(int i=0; i<5; i++) {
+                arrList.add(jamong.getName() + i);
+            }
+            return arrList;
+        }
     }
 }

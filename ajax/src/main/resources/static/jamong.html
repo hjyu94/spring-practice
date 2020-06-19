@@ -58,7 +58,7 @@
         var form = {
             name: "jamong",
             age: 23
-        }
+        };
         $.ajax({
             url: "stringify",
             type: "POST",
@@ -77,4 +77,30 @@
 </script>
 <br><br><br>
 
+<button id="btn4">restController</button>
+<div id="result4"></div>
+<script>
+    $('#btn4').on('click', function(){
+        var form = {
+            name: "jamong",
+            age: 23
+        };
+        $.ajax({
+            url: " restController",
+            type: "POST",
+            data: JSON.stringify(form),
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function(data){
+                for(var i=0; i<data.length; i++){
+                    $('#result4').append(data[i] + "<br>");
+                }
+            },
+            error: function(){
+                alert("restController err");
+            }
+        });
+    });
+</script>
+<br><br><br>
 </body>
