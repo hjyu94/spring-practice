@@ -71,28 +71,28 @@ public class FileUtils {
         return uploadRootPath;
     }
 
-        private static String makeIcon(String uploadPath, String dirname, String filename) {
-            String iconName = dirname + filename;
-            return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
-        }
-
-        // 업로드한 파일을 읽어서 세로 100인 썸네일 이미지를 만들어 저장한다.
-        public static String makeThumbnail(String uploadRootPath, String dirname, String filename) throws IOException {
-            BufferedImage srcImg = ImageIO.read(new File(dirname, filename));
-            BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
-            // width: FIT_TO_HEIGHT, height: 100
-
-            String thumbnailName = dirname + File.separator + "s_" + filename; // "F:.../upload\2020\07\01" + "\" + "s_" + "UUID_cat.png"
-            // 파일명에 . 없으면 ArrayOutOfException 발생
-            String ext = getFileExtension(filename); // "png"
-            File newFile = new File(thumbnailName);
-
-            ImageIO.write(destImg, ext.toUpperCase(), newFile); // 나중에 mime 체크할 때 편하게 하도록 대문자로 설정
-            return thumbnailName.substring(uploadRootPath.length()).replace(File.separatorChar, '/');
-        }
-
-        public static String getFileExtension(String filename) {
-            return filename.substring(filename.lastIndexOf(".") + 1); // . 이후로 문자열 끝까지 스트링을 잘라온다
-        }
-
+    private static String makeIcon(String uploadPath, String dirname, String filename) {
+        String iconName = dirname + File.separator + filename;
+        return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
     }
+
+    // 업로드한 파일을 읽어서 세로 100인 썸네일 이미지를 만들어 저장한다.
+    public static String makeThumbnail(String uploadRootPath, String dirname, String filename) throws IOException {
+        BufferedImage srcImg = ImageIO.read(new File(dirname, filename));
+        BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
+        // width: FIT_TO_HEIGHT, height: 100
+
+        String thumbnailName = dirname + File.separator + "s_" + filename; // "F:.../upload\2020\07\01" + "\" + "s_" + "UUID_cat.png"
+        // 파일명에 . 없으면 ArrayOutOfException 발생
+        String ext = getFileExtension(filename); // "png"
+        File newFile = new File(thumbnailName);
+
+        ImageIO.write(destImg, ext.toUpperCase(), newFile); // 나중에 mime 체크할 때 편하게 하도록 대문자로 설정
+        return thumbnailName.substring(uploadRootPath.length()).replace(File.separatorChar, '/');
+    }
+
+    public static String getFileExtension(String filename) {
+        return filename.substring(filename.lastIndexOf(".") + 1); // . 이후로 문자열 끝까지 스트링을 잘라온다
+    }
+
+}
