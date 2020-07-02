@@ -14,6 +14,7 @@ savedFilename: <th:block th:text="${savedFileName}"></th:block>
 <hr/>
 
 <h1>파일 업로드 - ajax 방식</h1>
+<div class="uploadedList"></div>
 <form id="form2" th:action="@{/uploadAjax}" method="post" enctype="multipart/form-data">
     <input type="file" name="file" id="ajax-file"/>
     <input type="submit" value="ajax 로 호출"/>
@@ -24,7 +25,8 @@ AJAX-savedFilename: <span id="upfile"></span>
 
 <script>
     const $percent = $('#percent'),
-        $status = $('#status');
+        $status = $('#status'),
+        $uplist = $('div.uploadedList');
 
     $("#form2").ajaxForm({
         beforeSend: function() {
@@ -53,6 +55,12 @@ AJAX-savedFilename: <span id="upfile"></span>
             $status.html(
                 '<a href="/displayFile?fileName=' + xhr.responseText + '">' + originalName + '</a> Uploaded'
             );
+            let uf = '<a href="/displayFile?fileName=' + xhr.responseText + '">' + originalName + '</a>';
+            $status.html(uf + ' Uploaded');
+
+            let ocd = "deleteFile('" + xhr.responseText + "')";
+            uf += ' <a href="javascript:;" onclick="' + ocd + '">X</a>';
+            uplist.append('<div>' + uf + '</div>');
         }
     });
 
@@ -84,6 +92,21 @@ AJAX-savedFilename: <span id="upfile"></span>
         let pattern =  /jpg$|png$|gif$/i; // jpg, png, gif 로 끝나는가? i: 대소문자 구별 하지 않음
         return fileName.match(pattern);
     }
+
+
+    function deleteFile(fileName) {
+        sendAjax("/deleteFile?fileName=" + fileName, (isSuccess, res) => {
+            if (isSuccess) {
+                alert(fileName + " Removed.");
+                let a = $('div.uploadedList div a[href="/displayFile?fileName=' + fileName + '"]');
+                console.debug("aaaaaaaaa>>", a);
+                a.parent().remove();
+            } else {
+                console.debug("Error on deleteFile>>", res);
+            }
+        }, 'DELETE');
+    }
+
 
 </script>
 </body>

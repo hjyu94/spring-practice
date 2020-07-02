@@ -11,10 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -125,6 +122,32 @@ public class UploadController {
             if (in != null) {
                 in.close(); // 반드시 스트림은 닫아줘야 한다. 안그러면 계속 누군가 써버리는 등의 일이 생길 수 있다.
             }
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteFile(String fileName, Integer bno) throws Exception {
+        log.info("deleteFile.....fileName={}, bno={}", fileName, bno);
+
+        try {
+            boolean isImage = FileUtils.getMediaType(FileUtils.getFileExtension(fileName)) != null;
+            File file = new File(appProperties.getUploadRootPath() + fileName);
+            file.delete();
+
+            // image면 원본 이미지도 삭제!
+            if (isImage) {
+                // /2018/09/21/s_resaldsfjadfldsj_realname.jpg
+                int lastSlash = fileName.lastIndexOf("/") + 1;
+                String realName = fileName.substring(0, lastSlash) + fileName.substring(lastSlash + 2);
+                File real = new File(appProperties.getUploadRootPath() + realName);
+                real.delete();
+            }
+
+            return new ResponseEntity<>("deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
