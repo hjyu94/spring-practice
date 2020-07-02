@@ -41,10 +41,50 @@ AJAX-savedFilename: <span id="upfile"></span>
             $percent.html(percentComplete + '%');
         },
         complete: function(xhr) {
+            console.debug("complete!!", xhr)
             console.debug("xhr.responseText>>", xhr.responseText)
+            // 이미지 업로드시 썸네일: "/2020/07/01/s_7a0bc03b-e62a-4ec0-91a1-13806b9b62fa_cat.png"
+            // 이미지 외의 파일 업로드시: "/2020/07/01a7e613fb-ce06-4759-8e20-ec8d92f4566d_test.html"
             $("#upfile").html(xhr.responseText);
+
+            let originalName = getOriginalName(xhr.responseText);
+            console.debug("QQQ>>", originalName);
+
+            $status.html(
+                '<a href="/displayFile?fileName=' + xhr.responseText + '">' + originalName + '</a> Uploaded'
+            );
         }
     });
+
+    // 이미지 파일이면 썸네일 이미지를 보여주는 html 을 보여주고
+    // 이미지가 아니라면 다운로드 링크를 제공한다.
+    function getOriginalName(fileName) {
+        // fileName: "/2020/07/01/s_7a0bc03b-e62a-4ec0-91a1-13806b9b62fa_cat.png"
+        // fileName: "/2020/07/01a7e613fb-ce06-4759-8e20-ec8d92f4566d_test.html"
+
+        let ret = fileName.substring(fileName.indexOf('_') + 1); // _ 이후 부터 문자 끝까지
+        // "7a0bc03b-e62a-4ec0-91a1-13806b9b62fa_cat.png"
+        // "test.html"
+
+        if (checkImageType(fileName)) {
+            console.debug("IMAGE!!")
+            ret = ret.substring(fileName.indexOf('_') + 1);
+            console.debug("ori>>", ret);
+            // "cat.png"
+            return '<img src="/displayFile?fileName=' + fileName + '" alt="' + ret + '">';
+            // <img src="/displayFile?fileName=/2020/07/01/s_7a0bc03b-e62a-4ec0-91a1-13806b9b62fa_cat.png" alt="cat.png">
+        } else {
+            console.debug("ori>>", ret);
+            // "test.html"
+            return ret;
+        }
+    }
+
+    function checkImageType(fileName) {
+        let pattern =  /jpg$|png$|gif$/i; // jpg, png, gif 로 끝나는가? i: 대소문자 구별 하지 않음
+        return fileName.match(pattern);
+    }
+
 </script>
 </body>
 </html>
