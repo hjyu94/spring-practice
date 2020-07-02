@@ -1,8 +1,9 @@
-package me.hjeong.fileutilpractice;
+package me.hjeong.fileutilpractice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+import me.hjeong.fileutilpractice.config.AppProperties;
+import me.hjeong.fileutilpractice.util.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,6 @@ public class UploadController {
 
         String savedFileName = FileUtils.uploadFile(file, appProperties.getUploadRootPath());
         model.addAttribute("savedFileName", savedFileName);
-        return "youtube/uploadForm";
+        return "uploadForm";
     }
 }

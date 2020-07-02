@@ -32,3 +32,6 @@
 
 ### secret properties ###
 **/application-secret.properties
+
+### upload files ###
+**/upload
